@@ -33,7 +33,8 @@ public:
     	int length1, length2;
     	length1 = nums1.size();
     	length2 = nums2.size();
-    	if ((length1 + length2) % 2 != 0)    return findKthNumber(nums1, nums2, 0, length1 - 1, 0, length2 - 1, (length1 + length2 - 1) / 2);
+    	if ((length1 + length2) % 2 != 0)    
+    		return findKthNumber(nums1, nums2, 0, length1 - 1, 0, length2 - 1, (length1 + length2 - 1) / 2);
     	else {
     		int a = findKthNumber(nums1, nums2, 0, length1 - 1, 0, length2 - 1, (length1 + length2) / 2);
     		int b = findKthNumber(nums1, nums2, 0, length1 - 1, 0, length2 - 1, (length1 + length2 - 2) / 2);
