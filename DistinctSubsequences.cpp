@@ -48,11 +48,7 @@ public:
             }
             dp[i][0] = num;
         }
-        
-        for (int j = 1; j < t.size(); j++) {
-            dp[0][j] = 0;
-        }
-        
+           
         for (int j = 1; j < t.size(); j++) {
             for (int i = j; i < s.size(); i++) {
                 if (i == j) {
