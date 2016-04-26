@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="MySolution : ">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>MySolution</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/chenneal/leetcode">View on GitHub</a>
+
+          <h1 id="project_title">MySolution</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/chenneal/leetcode/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/chenneal/leetcode/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+<a id="my-main-idea" class="anchor" href="#my-main-idea" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>My main idea</h3>
+
+<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>vector<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>stdlib.h<span class="pl-pds">&gt;</span></span>
+
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+
+<span class="pl-c">// define the comparation</span>
+<span class="pl-k">int</span> <span class="pl-en">compare</span>(<span class="pl-k">const</span> <span class="pl-k">void</span> *a, <span class="pl-k">const</span> <span class="pl-k">void</span> *b) {
+    <span class="pl-k">long</span> <span class="pl-k">long</span>* x = (<span class="pl-k">long</span> <span class="pl-k">long</span> *)a;
+    <span class="pl-k">long</span> <span class="pl-k">long</span>* y = (<span class="pl-k">long</span> <span class="pl-k">long</span> *)b; 
+    <span class="pl-k">if</span> (x[<span class="pl-c1">1</span>] &gt; y[<span class="pl-c1">1</span>])   <span class="pl-k">return</span> <span class="pl-c1">1</span>;
+    <span class="pl-k">else</span> <span class="pl-k">if</span> (x[<span class="pl-c1">1</span>] == y[<span class="pl-c1">1</span>] &amp;&amp; x[<span class="pl-c1">2</span>] &gt; y[<span class="pl-c1">2</span>])   <span class="pl-k">return</span> <span class="pl-c1">1</span>;
+    <span class="pl-k">else</span> <span class="pl-k">return</span> -<span class="pl-c1">1</span>; 
+}
+
+<span class="pl-k">long</span> <span class="pl-k">long</span> <span class="pl-en">select_max_concurrent</span>(<span class="pl-k">long</span> <span class="pl-k">long</span> **data, <span class="pl-k">int</span> N) {
+    <span class="pl-c">// record the current pool id</span>
+    <span class="pl-k">long</span> <span class="pl-k">long</span> pool_id;
+    <span class="pl-c">// record the max number of concurrent</span>
+    <span class="pl-k">int</span> max = <span class="pl-c1">0</span>;
+    <span class="pl-c">// record the index of the connection</span>
+    <span class="pl-k">int</span> count = <span class="pl-c1">0</span>;
+    <span class="pl-c">// record the max-concurrent pool id</span>
+    <span class="pl-k">long</span> <span class="pl-k">long</span> max_pool_id;
+    <span class="pl-k">while</span> (count &lt; N) {
+        <span class="pl-c">// record the max-concurrent number of current pool_id </span>
+        <span class="pl-k">int</span> max_pool = <span class="pl-c1">0</span>;
+        <span class="pl-c">// record the current concurrent number of current pool_id </span>
+        <span class="pl-k">int</span> cur_max_pool = <span class="pl-c1">0</span>;
+        <span class="pl-k">long</span> <span class="pl-k">long</span> begin_max = <span class="pl-c1">0</span>;
+        <span class="pl-k">long</span> <span class="pl-k">long</span> end_min = LLONG_MAX;
+        pool_id = data[count][<span class="pl-c1">1</span>];
+        <span class="pl-k">while</span> (count &lt; N) {
+            <span class="pl-c">// if begin_next &gt; end_min, restart the current concurrent count</span>
+            <span class="pl-k">if</span> (data[count][<span class="pl-c1">2</span>] &gt;= end_min) {
+                begin_max = <span class="pl-c1">0</span>;
+                end_min = LLONG_MAX;
+                count++;
+                cur_max_pool = <span class="pl-c1">0</span>;
+            }
+            <span class="pl-k">else</span> {
+                <span class="pl-k">if</span> (data[count][<span class="pl-c1">2</span>] &gt; begin_max)   begin_max = data[count][<span class="pl-c1">2</span>];
+                <span class="pl-k">if</span> (data[count][<span class="pl-c1">3</span>] &lt; end_min)     end_min = data[count][<span class="pl-c1">3</span>];
+                cur_max_pool++;
+                <span class="pl-k">if</span> (cur_max_pool &gt; max_pool) {
+                    max_pool = cur_max_pool;
+                }
+                count++;
+            }
+            <span class="pl-k">if</span> (count &lt; N) {
+                <span class="pl-k">if</span> (pool_id != data[count][<span class="pl-c1">1</span>]) {
+                    <span class="pl-k">break</span>;
+                }
+            }
+            <span class="pl-k">if</span> (cur_max_pool &gt; max_pool) {
+                max_pool = cur_max_pool;
+            }
+        }
+        <span class="pl-k">if</span> (max_pool &gt; max) {
+            max = max_pool;
+            max_pool_id = pool_id;
+        }
+    }
+    <span class="pl-k">return</span> max_pool_id; 
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span> (<span class="pl-k">void</span>) {
+    <span class="pl-k">int</span> N;
+    <span class="pl-k">long</span> <span class="pl-k">long</span> **data;
+    <span class="pl-k">long</span> <span class="pl-k">long</span> * p;
+    cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>enter the connection number<span class="pl-cce">\n</span><span class="pl-pds">"</span></span>;
+    cin &gt;&gt; N;
+    data = (<span class="pl-k">long</span> <span class="pl-k">long</span> **) <span class="pl-c1">malloc</span> (N*<span class="pl-k">sizeof</span>(<span class="pl-k">long</span> <span class="pl-k">long</span>*));
+    p = (<span class="pl-k">long</span> <span class="pl-k">long</span> *) <span class="pl-c1">malloc</span> (<span class="pl-c1">4</span>*N*<span class="pl-k">sizeof</span>(<span class="pl-k">long</span> <span class="pl-k">long</span>));
+
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; N; i++) {
+        data[i] = p;
+        p = p + <span class="pl-c1">4</span>;
+    }
+
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; N; i++) {
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">0</span>; j &lt; <span class="pl-c1">4</span>; j++) {
+            cin &gt;&gt; data[i][j];
+        }
+    }
+
+    <span class="pl-c">// sort the array with the key pool_id &amp;&amp; the start_time</span>
+    <span class="pl-c1">qsort</span>(data[<span class="pl-c1">0</span>], N, <span class="pl-c1">4</span>*<span class="pl-k">sizeof</span>(<span class="pl-k">long</span> <span class="pl-k">long</span>), compare);
+
+    <span class="pl-k">long</span> <span class="pl-k">long</span> max_pool_id = <span class="pl-c1">select_max_concurrent</span>(data, N);
+    <span class="pl-c">// return the max_concurrent_pool_id;</span>
+    cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>max concurrent pool id = <span class="pl-pds">"</span></span> &lt;&lt; max_pool_id &lt;&lt; endl;
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}
+</pre></div>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">MySolution maintained by <a href="https://github.com/chenneal">chenneal</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
