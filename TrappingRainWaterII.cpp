@@ -29,7 +29,7 @@ public:
                 return false;
         }
         bool operator <(const node& other) const{
-            return (height < other.height);
+            return (height > other.height);
         }
     };
     int trapRainWater(vector<vector<int>>& heightMap) {
@@ -40,24 +40,20 @@ public:
         if (n <= 2)
             return 0;
         int trap = 0;
-        static pair<int, int> dir[4] = {{0, -1},{0, 1},{-1, 0}, {1, 0}};
+        static vector<pair<int, int>> dir = {{0, -1},{0, 1},{-1, 0}, {1, 0}};
         vector<vector<bool>> visit(m, vector<bool>(n, false));
         priority_queue<node, vector<node>> que;
         // 外围的柱子依次进入优先队列
         for (int i = 0; i < m; i++) {
-            node node1(i, 0, heightMap[i][0]);
-            node node2(i, n-1, heightMap[i][n-1]);
-            que.push(node1);
-            que.push(node2);
+            que.push(node(i, 0, heightMap[i][0]));
+            que.push(node(i, n-1, heightMap[i][n-1]));
             visit[i][0] = true;
             visit[i][n-1] = true;
         }
 
         for (int i = 1; i < n-1; i++) {
-            node node1(0, i, heightMap[0][i]);
-            node node2(m-1, i, heightMap[m-1][i]);
-            que.push(node1);
-            que.push(node2);
+            que.push(node(0, i, heightMap[0][i]));
+            que.push(node(m-1, i, heightMap[m-1][i]));
             visit[0][i] = true;
             visit[m-1][i] = true;
         }
@@ -76,8 +72,7 @@ public:
                 else {
                     if (heightMap[x2][y2] < Max)
                         trap += Max-heightMap[x2][y2];
-                    node node1 = node(x2, y2, heightMap[x2][y2]);
-                    que.push(node1);
+                    que.push(node(x2, y2, heightMap[x2][y2]));
                     visit[x2][y2] = true;
                 }
             }
