@@ -37,7 +37,6 @@ public:
         for (i = 2; i < length-1; i++) {
                 pro_max = max(pro_max, dp_pre[i]+dp_suf[i]);
         }
-
         return max(dp_pre[length-1], pro_max);
     }
 };
