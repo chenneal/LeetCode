@@ -22,7 +22,7 @@ public:
         int min_t = prices[0];
         dp_suf[length-1] = 0;  
         dp_pre[0] = 0;       
-        for (i = 2; i < length; i++) {
+        for (i = 1; i < length; i++) {
             if (prices[i] < min_t)
                 min_t = prices[i];
             dp_pre[i] = max(prices[i]-min_t, dp_pre[i-1]);
@@ -31,7 +31,7 @@ public:
         for (i = length-2; i > 0 ; i--) {
             if (prices[i] > max_t)
                 max_t = prices[i];
-            dp_suf[i] = max(max_t-prices[i], dp_suf[i+1],);
+            dp_suf[i] = max(max_t-prices[i], dp_suf[i+1]);
         }
 
         for (i = 2; i < length-1; i++) {
