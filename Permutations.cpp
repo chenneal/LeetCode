@@ -28,7 +28,7 @@ public:
         }
         else {
             for (int i = head; i <= tail; i++) {
-                //交换首尾的值再深搜
+                //交换首尾的值再dfs
                 swap(nums, head, i);
                 perm(result, nums, head+1, tail);
                 //复原，以便下次继续使用
