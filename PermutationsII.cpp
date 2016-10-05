@@ -13,21 +13,26 @@ For example,
 
 class Solution {
 public:
-    vector<vector<int>> permute(vector<int>& nums) {
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
         vector<vector<int>> result;
         vector<int> temp;
         perm(result, nums, 0, nums.size()-1);
         return result;
     }
     void perm(vector<vector<int>>& result, vector<int>&nums, int head, int tail) {
+        //如果后续发现目前位置的值之前已经交换过，跳过即可，用set存取是否已经访问过的信息
+        set<int> repeat;
         if (head >= tail) {
             result.push_back(nums);
             return ;
         }
         else {
-            for (int i = head, i <= tail; i++) {
+            for (int i = head; i <= tail; i++) {
                 if ((i != head) && (nums[i] == nums[head]))
-                    return ;
+                    continue ;
+                if (repeat.find(nums[i]) != repeat.end())
+                    continue;
+                repeat.insert(nums[i]);
                 //交换首尾的值再深搜
                 swap(nums, head, i);
                 perm(result, nums, head+1, tail);
