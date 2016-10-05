@@ -22,7 +22,7 @@ public:
         return result;
     }
     void perm(vector<vector<int>>& result, vector<int>&nums, int head, int tail) {
-        if (head > tail) {
+        if (head >= tail) {
             result.push_back(nums);
             return ;
         }
