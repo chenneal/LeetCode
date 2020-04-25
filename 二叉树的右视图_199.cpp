@@ -16,7 +16,6 @@ public:
             return result;
         
         result.push_back(root->val);
-        
         if (!root->left && !root->right) {
             return result;
         }
